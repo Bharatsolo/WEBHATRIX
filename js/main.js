@@ -178,10 +178,6 @@
                 const speed = parseFloat(layer.dataset.speed) || 0.05;
                 layer.style.transform = `translate(${heroParallaxX * speed * 100}px, ${heroParallaxY * speed * 100}px)`;
             });
-            const heroContent = document.querySelector('.hero-content');
-            if (heroContent) {
-                heroContent.style.transform = `translate(${heroParallaxX * 4}px, ${heroParallaxY * 4}px)`;
-            }
 
             requestAnimationFrame(cursorLoop);
         }
@@ -565,26 +561,71 @@
     }
 
     /* ── Contact Form ── */
-    const form = document.getElementById('contactForm');
-    if (form) {
-        form.addEventListener('submit', e => {
+    /* ── Contact & Quote Forms (Web3Forms) ── */
+    const forms = document.querySelectorAll('.contact-form');
+    forms.forEach(form => {
+        form.addEventListener('submit', async e => {
             e.preventDefault();
             let valid = true;
             form.querySelectorAll('[required]').forEach(inp => {
                 const group = inp.closest('.form-group');
+                if (!group) return;
                 if (!inp.value.trim()) { group.classList.add('error'); group.classList.remove('success'); valid = false; }
                 else if (inp.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value)) { group.classList.add('error'); group.classList.remove('success'); valid = false; }
                 else { group.classList.remove('error'); group.classList.add('success'); }
             });
             if (!valid) return;
+
             const btn = form.querySelector('.btn-submit');
             btn.classList.add('loading');
-            setTimeout(() => { btn.classList.remove('loading'); form.style.display = 'none'; document.querySelector('.form-success').classList.add('show'); }, 1500);
+
+            const formData = new FormData(form);
+
+            // Send Data to Make.com Webhook for WhatsApp
+            const makeData = Object.fromEntries(formData.entries());
+            const services = [];
+            for (let [key, value] of formData.entries()) {
+                if (key === 'services') services.push(value);
+            }
+            if (services.length > 0) makeData.services = services.join(', ');
+
+            fetch('https://hook.eu1.make.com/k737q67wcp25mq9s0xam5w3us438vy8k', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(makeData)
+            }).catch(e => console.error("Webhook Error:", e));
+
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    btn.classList.remove('loading');
+                    form.style.display = 'none';
+                    const successMsg = form.parentElement.querySelector('.form-success');
+                    if (successMsg) successMsg.classList.add('show');
+                } else {
+                    console.error('Form Error:', data);
+                    alert('Something went wrong submitting your request. Please try again later.');
+                    btn.classList.remove('loading');
+                }
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                alert('Something went wrong connecting to the server. Please check your connection and try again.');
+                btn.classList.remove('loading');
+            }
         });
+
         form.querySelectorAll('input,select,textarea').forEach(inp => {
-            inp.addEventListener('input', () => { const g = inp.closest('.form-group'); if (inp.value.trim()) g.classList.remove('error'); });
+            inp.addEventListener('input', () => {
+                const g = inp.closest('.form-group');
+                if (g && inp.value.trim()) g.classList.remove('error');
+            });
         });
-    }
+    });
 
     /* ── Newsletter Form ── */
     const nlForm = document.getElementById('newsletterForm');

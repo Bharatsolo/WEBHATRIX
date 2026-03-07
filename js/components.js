@@ -13,7 +13,10 @@
   /* ── Page Transition Overlay (fade-based) ── */
   const overlay = document.createElement('div');
   overlay.id = 'pg-overlay';
-  overlay.innerHTML = `<div class="pg-logo">WEBHATRIX</div>`;
+  overlay.innerHTML = `
+    <img src="images/Webhatrix Logo.jpg" alt="Webhatrix Logo" class="pg-logo" style="max-height: 100px; border-radius: 12px; margin-bottom: 24px;">
+    <div class="pg-logo">WEBHATRIX</div>
+  `;
   document.body.prepend(overlay);
 
   /* ── Scroll Progress Bar ── */
@@ -31,10 +34,7 @@
   nav.className = 'navbar';
   nav.id = 'navbar';
   nav.innerHTML = `
-    <a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-      <img src="images/Webhatrix Logo.jpg" alt="Webhatrix Logo" style="height: 40px; border-radius: 8px; flex-shrink: 0;">
-      <div class="nav-logo glitch" data-text="WEBHATRIX" style="cursor: pointer;">WEBHA<span>TRIX</span></div>
-    </a>
+    <a href="index.html" class="nav-logo glitch" data-text="WEBHATRIX">WEBHA<span>TRIX</span></a>
     <div class="nav-links">
       <a href="index.html" ${linkClass('index.html')}>Home</a>
       <a href="services.html" ${linkClass('services.html')}>Services</a>
@@ -45,7 +45,7 @@
       <a href="contact.html" ${linkClass('contact.html')}>Contact</a>
     </div>
     <button id="theme-toggle" class="theme-btn" title="Toggle theme">🌙</button>
-    <a href="contact.html" class="nav-cta"><span>Start Project →</span></a>
+    <a href="quote.html" class="nav-cta"><span>Start Project →</span></a>
     <div class="menu-toggle" id="menuToggle">
       <span></span><span></span><span></span>
     </div>
@@ -64,7 +64,7 @@
     <a href="about.html">About</a>
     <a href="blog.html">Blog</a>
     <a href="contact.html">Contact</a>
-    <a href="contact.html" class="btn btn-primary" style="margin-top:1rem"><span>Start Project →</span></a>
+    <a href="quote.html" class="btn btn-primary" style="margin-top:1rem"><span>Start Project →</span></a>
   `;
   document.body.prepend(mob);
 
@@ -130,7 +130,7 @@
         <ul>
           <li><a href="mailto:hello@webhatrix.com"><span>hello@webhatrix.com</span></a></li>
           <li><a href="tel:+91XXXXXXXXXX"><span>+91 XXXXX XXXXX</span></a></li>
-          <li><a href="contact.html"><span>Get a Quote</span></a></li>
+          <li><a href="quote.html"><span>Get a Quote</span></a></li>
         </ul>
       </div>
     </div>

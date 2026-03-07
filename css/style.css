@@ -94,6 +94,14 @@ select {
    visibility: hidden
 }
 
+.page-loader__logo {
+   max-width: clamp(140px, 30vw, 250px);
+   height: auto;
+   border-radius: 12px;
+   animation: loaderPulse 1s ease infinite alternate;
+   margin-bottom: 24px;
+}
+
 .page-loader__text {
    font-family: var(--font-heading);
    font-size: clamp(2rem, 5vw, 3.5rem);
@@ -102,7 +110,8 @@ select {
    -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;
    background-clip: text;
-   animation: loaderPulse 1s ease infinite alternate
+   animation: loaderPulse 1s ease infinite alternate;
+   margin-bottom: 8px;
 }
 
 .page-loader__bar {
@@ -3556,4 +3565,82 @@ footer {
       transform: translate(0, 0);
       opacity: 0;
    }
+}
+
+/* ═══════════════════════════════════════════
+   UPGRADE: CUSTOM CHECKBOX FOR QUOTE FORM
+   ═══════════════════════════════════════════ */
+.custom-checkbox {
+   display: flex;
+   align-items: center;
+   position: relative;
+   padding-left: 32px;
+   cursor: pointer;
+   font-size: 0.95rem;
+   color: var(--text);
+   user-select: none;
+   background: rgba(12, 18, 32, 0.4);
+   border: 1px solid var(--card-border);
+   padding: 12px 16px 12px 40px;
+   border-radius: 8px;
+   transition: all 0.3s ease;
+}
+
+.custom-checkbox:hover {
+   background: rgba(12, 18, 32, 0.8);
+   border-color: rgba(0, 229, 255, 0.3);
+}
+
+.custom-checkbox input {
+   position: absolute;
+   opacity: 0;
+   cursor: pointer;
+   height: 0;
+   width: 0;
+}
+
+.custom-checkbox .checkmark {
+   position: absolute;
+   top: 50%;
+   left: 12px;
+   transform: translateY(-50%);
+   height: 20px;
+   width: 20px;
+   background-color: transparent;
+   border: 2px solid var(--muted);
+   border-radius: 4px;
+   transition: all 0.2s ease;
+}
+
+.custom-checkbox:hover input~.checkmark {
+   border-color: var(--cyan);
+}
+
+.custom-checkbox input:checked~.checkmark {
+   background-color: var(--cyan);
+   border-color: var(--cyan);
+}
+
+.custom-checkbox .checkmark:after {
+   content: "";
+   position: absolute;
+   display: none;
+}
+
+.custom-checkbox input:checked~.checkmark:after {
+   display: block;
+}
+
+.custom-checkbox .checkmark:after {
+   left: 6px;
+   top: 2px;
+   width: 5px;
+   height: 10px;
+   border: solid var(--bg);
+   border-width: 0 2px 2px 0;
+   transform: rotate(45deg);
+}
+
+.custom-checkbox input:checked~span {
+   color: var(--cyan);
 }

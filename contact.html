@@ -46,6 +46,7 @@
 <body>
 
     <div class="page-loader" id="pageLoader">
+        <img src="images/Webhatrix Logo.jpg" alt="Webhatrix Logo" class="page-loader__logo">
         <div class="page-loader__text">WEBHATRIX</div>
         <div class="page-loader__bar"><span></span></div>
     </div>
@@ -92,6 +93,9 @@
                 <!-- Right — Form -->
                 <div class="reveal-right">
                     <form class="contact-form" id="contactForm" novalidate>
+                        <input type="hidden" name="access_key" value="2f12c261-7b8b-47fe-a8a3-0cbd6a8e751a">
+                        <input type="hidden" name="subject" value="New Contact Inquiry - Webhatrix">
+                        <input type="hidden" name="from_name" value="Webhatrix Contact Form">
                         <div class="form-group">
                             <label for="name">Name *</label>
                             <input type="text" id="name" name="name" placeholder="Your full name" required>
