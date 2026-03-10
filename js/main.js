@@ -47,34 +47,10 @@
     }
 
     /* ═══════════════════════════════════════════
-       MASTER RAF SCROLL LOOP
+       NATIVE SCROLL LOOP (Optimized)
        ═══════════════════════════════════════════ */
     const navbar = document.getElementById('navbar');
-    let targetY = window.scrollY;
-    let currentY = window.scrollY;
-    const LERP = 0.09;
     let rafRunning = false;
-
-    function getMaxScroll() {
-        return document.documentElement.scrollHeight - window.innerHeight;
-    }
-
-    window.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        targetY += e.deltaY * 0.75;
-        targetY = Math.max(0, Math.min(targetY, getMaxScroll()));
-        if (!rafRunning) startMasterLoop();
-    }, { passive: false });
-
-    let touchY = 0;
-    window.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
-    window.addEventListener('touchmove', e => {
-        const dy = (touchY - e.touches[0].clientY) * 1.8;
-        targetY += dy;
-        targetY = Math.max(0, Math.min(targetY, getMaxScroll()));
-        touchY = e.touches[0].clientY;
-        if (!rafRunning) startMasterLoop();
-    }, { passive: true });
 
     const horizSection = document.querySelector('.horiz-section');
     const horizTrack = document.querySelector('.horiz-track');
@@ -104,47 +80,39 @@
         });
     }
 
-    function startMasterLoop() { rafRunning = true; loop(); }
+    function onScroll() {
+        if (!rafRunning) {
+            rafRunning = true;
+            requestAnimationFrame(() => {
+                const currentY = window.scrollY;
 
-    function loop() {
-        currentY += (targetY - currentY) * LERP;
-        if (Math.abs(targetY - currentY) < 0.1) currentY = targetY;
-        window.scrollTo(0, currentY);
+                if (navbar) navbar.classList.toggle('scrolled', currentY > 60);
 
-        if (navbar) navbar.classList.toggle('scrolled', currentY > 60);
+                const bar = document.getElementById('scroll-progress');
+                if (bar) {
+                    const max = document.documentElement.scrollHeight - window.innerHeight;
+                    bar.style.width = max > 0 ? (currentY / max * 100) + '%' : '0%';
+                }
 
-        const bar = document.getElementById('scroll-progress');
-        if (bar) {
-            const max = getMaxScroll();
-            bar.style.width = max > 0 ? (currentY / max * 100) + '%' : '0%';
-        }
+                const btt = document.getElementById('back-to-top');
+                if (btt) btt.classList.toggle('visible', currentY > 500);
 
-        const btt = document.getElementById('back-to-top');
-        if (btt) btt.classList.toggle('visible', currentY > 500);
+                updateHorizontalScroll();
+                updateTimelineFill();
 
-        updateHorizontalScroll();
-        updateTimelineFill();
-
-        // Sync GSAP ScrollTrigger
-        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
-
-        if (Math.abs(targetY - currentY) > 0.1) {
-            requestAnimationFrame(loop);
-        } else {
-            rafRunning = false;
+                rafRunning = false;
+            });
         }
     }
 
-    window.addEventListener('scroll', () => {
-        if (!rafRunning) { currentY = window.scrollY; targetY = window.scrollY; }
-    }, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    // Trigger once on load
+    onScroll();
 
-    document.getElementById('back-to-top')?.addEventListener('click', () => {
-        targetY = 0;
-        if (!rafRunning) startMasterLoop();
+    document.getElementById('back-to-top')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-
-    startMasterLoop();
 
     /* ═══════════════════════════════════════════
        GPU CURSOR (separate RAF)
@@ -158,26 +126,37 @@
     let heroParallaxX = 0, heroParallaxY = 0;
     let targetParallaxX = 0, targetParallaxY = 0;
 
+    // Global Hero Visibility State
+    let isHeroVisible = true;
+    const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => isHeroVisible = e.isIntersecting);
+    }, { threshold: 0 });
+    const mainHeroSec = document.querySelector('.hero');
+    if (mainHeroSec) heroObserver.observe(mainHeroSec);
+
     if (cursorDot && cursorRing && window.matchMedia('(hover:hover)').matches) {
         document.addEventListener('mousemove', e => {
+            if (!isHeroVisible) return;
             mX = e.clientX; mY = e.clientY;
             targetParallaxX = (e.clientX / window.innerWidth - 0.5) * 2;
             targetParallaxY = (e.clientY / window.innerHeight - 0.5) * 2;
         }, { passive: true });
 
         function cursorLoop() {
-            cursorDot.style.transform = `translate(${mX - 4}px,${mY - 4}px)`;
-            rX += (mX - rX) * 0.14;
-            rY += (mY - rY) * 0.14;
-            cursorRing.style.transform = `translate(${rX - 18}px,${rY - 18}px)`;
+            if (isHeroVisible) {
+                cursorDot.style.transform = `translate(${mX - 4}px,${mY - 4}px)`;
+                rX += (mX - rX) * 0.14;
+                rY += (mY - rY) * 0.14;
+                cursorRing.style.transform = `translate(${rX - 18}px,${rY - 18}px)`;
 
-            // UPGRADE 7: Parallax depth layers
-            heroParallaxX += (targetParallaxX - heroParallaxX) * 0.06;
-            heroParallaxY += (targetParallaxY - heroParallaxY) * 0.06;
-            parallaxLayers.forEach(layer => {
-                const speed = parseFloat(layer.dataset.speed) || 0.05;
-                layer.style.transform = `translate(${heroParallaxX * speed * 100}px, ${heroParallaxY * speed * 100}px)`;
-            });
+                // UPGRADE 7: Parallax depth layers
+                heroParallaxX += (targetParallaxX - heroParallaxX) * 0.06;
+                heroParallaxY += (targetParallaxY - heroParallaxY) * 0.06;
+                parallaxLayers.forEach(layer => {
+                    const speed = parseFloat(layer.dataset.speed) || 0.05;
+                    layer.style.transform = `translate(${heroParallaxX * speed * 100}px, ${heroParallaxY * speed * 100}px)`;
+                });
+            }
 
             requestAnimationFrame(cursorLoop);
         }
@@ -203,15 +182,17 @@
     /* ── UPGRADE 2: 3D TITLE PARALLAX ── */
     const hero3d = document.getElementById('hero3d');
     if (hero3d) {
+        const titleFront = hero3d.querySelector('.title-front');
+        const titleMid = hero3d.querySelector('.title-mid');
+        const titleBack = hero3d.querySelector('.title-back');
+
         document.addEventListener('mousemove', e => {
+            if (!isHeroVisible) return;
             const x = (e.clientX / window.innerWidth - 0.5) * 20;
             const y = (e.clientY / window.innerHeight - 0.5) * 10;
-            const front = hero3d.querySelector('.title-front');
-            const mid = hero3d.querySelector('.title-mid');
-            const back = hero3d.querySelector('.title-back');
-            if (front) front.style.transform = 'translate(0,0)';
-            if (mid) mid.style.transform = `translate(${3 + x * 0.3}px, ${3 + y * 0.3}px)`;
-            if (back) back.style.transform = `translate(${6 + x * 0.6}px, ${6 + y * 0.6}px)`;
+            if (titleFront) titleFront.style.transform = 'translate(0,0)';
+            if (titleMid) titleMid.style.transform = `translate(${3 + x * 0.3}px, ${3 + y * 0.3}px)`;
+            if (titleBack) titleBack.style.transform = `translate(${6 + x * 0.6}px, ${6 + y * 0.6}px)`;
         }, { passive: true });
     }
 
@@ -256,6 +237,17 @@
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) { threeActive = false; } else { threeActive = true; requestAnimationFrame(threeLoop); }
         });
+
+        // Use global isHeroVisible tracker to throttle canvas
+        const threeCheckInterval = setInterval(() => {
+            if (isHeroVisible && !document.hidden && !threeActive) {
+                threeActive = true;
+                requestAnimationFrame(threeLoop);
+            } else if (!isHeroVisible) {
+                threeActive = false;
+            }
+        }, 300);
+
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
@@ -281,7 +273,16 @@
         for (let i = 0; i < pCount; i++) {
             particles.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, c: COLORS[i % 2] });
         }
-        function drawParticles() {
+        let lastParticleFrame = 0;
+        const PARTICLE_FPS_INTERVAL = 1000 / 30; // 30 FPS cap
+
+        function drawParticles(timestamp) {
+            if (particlesActive) requestAnimationFrame(drawParticles);
+
+            const elapsed = timestamp - lastParticleFrame;
+            if (elapsed < PARTICLE_FPS_INTERVAL) return;
+            lastParticleFrame = timestamp - (elapsed % PARTICLE_FPS_INTERVAL);
+
             ctx.clearRect(0, 0, W, H);
             for (let i = 0; i < particles.length; i++) {
                 const p = particles[i];
@@ -296,8 +297,20 @@
                     if (d < 120) { ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.strokeStyle = 'rgba(0,229,255,' + (1 - d / 120) * 0.15 + ')'; ctx.lineWidth = 0.5; ctx.stroke(); }
                 }
             }
-            requestAnimationFrame(drawParticles);
         }
+
+        let particlesActive = true;
+
+        // Use global isHeroVisible tracker
+        setInterval(() => {
+            if (isHeroVisible && !particlesActive) {
+                particlesActive = true;
+                requestAnimationFrame(drawParticles);
+            } else if (!isHeroVisible) {
+                particlesActive = false;
+            }
+        }, 300);
+
         drawParticles();
     }
 
@@ -330,26 +343,38 @@
         if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
             return; // Skip complex GSAP animations to prevent opacity traps
         }
+        // Batch Section Titles
         document.querySelectorAll('.section-title').forEach(title => {
             const words = title.innerText.split(' ');
             title.innerHTML = words.map(w =>
                 `<span class="gsap-word" style="display:inline-block;overflow:hidden"><span style="display:inline-block">${w}</span></span>`
             ).join(' ');
-            gsap.from(title.querySelectorAll('.gsap-word span'), {
-                scrollTrigger: { trigger: title, start: 'top 85%', toggleActions: 'play none none reverse' },
-                y: '110%', opacity: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out'
-            });
         });
 
+        ScrollTrigger.batch('.section-title', {
+            start: 'top 85%',
+            once: true,
+            onEnter: batch => {
+                batch.forEach((title, i) => {
+                    gsap.from(title.querySelectorAll('.gsap-word span'), {
+                        y: '110%', opacity: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out', delay: i * 0.15
+                    });
+                });
+            }
+        });
 
-
-        // Timeline items — node scale
-        document.querySelectorAll('.timeline-step').forEach((item, i) => {
-            const node = item.querySelector('.node-circle');
-            if (node) {
-                gsap.from(node, {
-                    scrollTrigger: { trigger: item, start: 'top 80%' },
-                    scale: 0, duration: 0.5, ease: 'back.out(2)'
+        // Batch Timeline items
+        ScrollTrigger.batch('.timeline-step', {
+            start: 'top 80%',
+            once: true,
+            onEnter: batch => {
+                batch.forEach((item, i) => {
+                    const node = item.querySelector('.node-circle');
+                    if (node) {
+                        gsap.from(node, {
+                            scale: 0, duration: 0.5, ease: 'back.out(2)', delay: i * 0.1
+                        });
+                    }
                 });
             }
         });
@@ -382,9 +407,15 @@
             });
         }
 
-        // GSAP Performance
-        window.addEventListener('load', () => { ScrollTrigger.refresh(); });
-        document.fonts.ready.then(() => { ScrollTrigger.refresh(); });
+        // GSAP Performance (Debounced)
+        let stTimeout;
+        const debounceRefresh = () => {
+            clearTimeout(stTimeout);
+            stTimeout = setTimeout(() => ScrollTrigger.refresh(), 250);
+        };
+        window.addEventListener('load', debounceRefresh, { passive: true });
+        window.addEventListener('resize', debounceRefresh, { passive: true });
+        document.fonts.ready.then(debounceRefresh);
         document.addEventListener('click', e => {
             const link = e.target.closest('a[href$=".html"]');
             if (link) ScrollTrigger.killAll();

@@ -126,7 +126,9 @@ select {
 .page-loader__bar span {
    display: block;
    height: 100%;
-   width: 0;
+   width: 100%;
+   transform: scaleX(0);
+   transform-origin: left;
    background: linear-gradient(90deg, var(--cyan), var(--violet));
    border-radius: 4px;
    animation: loaderFill 1.2s ease forwards
@@ -134,7 +136,7 @@ select {
 
 @keyframes loaderFill {
    to {
-      width: 100%
+      transform: scaleX(1);
    }
 }
 
@@ -172,8 +174,10 @@ select {
    left: 0;
    pointer-events: none;
    z-index: 99998;
-   will-change: transform;
-   transition: width .3s, height .3s, border-color .3s
+   will-change: transform, border-color, width, height;
+   transform: translateZ(0);
+   backface-visibility: hidden;
+   transition: width .3s, height .3s, border-color .3s, transform .3s
 }
 
 /* ── Navbar ── */
@@ -187,7 +191,7 @@ select {
    display: flex;
    align-items: center;
    justify-content: space-between;
-   transition: var(--transition)
+   transition: background-color var(--transition), backdrop-filter var(--transition), border-color var(--transition)
 }
 
 .navbar.scrolled {
@@ -227,16 +231,18 @@ select {
    position: absolute;
    bottom: 0;
    left: 0;
-   width: 0;
+   width: 100%;
+   transform: scaleX(0);
+   transform-origin: left;
    height: 2px;
    background: var(--cyan);
    border-radius: 2px;
-   transition: width .3s
+   transition: transform .3s
 }
 
 .nav-links a:hover::after,
 .nav-links a.active::after {
-   width: 100%
+   transform: scaleX(1)
 }
 
 .nav-links a:hover {
@@ -253,7 +259,7 @@ select {
    font-weight: 600;
    font-size: .88rem;
    color: var(--cyan);
-   transition: var(--transition);
+   transition: background-color var(--transition), color var(--transition), box-shadow var(--transition), transform var(--transition);
    box-shadow: 0 0 12px rgba(0, 229, 255, .12)
 }
 
@@ -276,7 +282,7 @@ select {
    width: 24px;
    height: 2px;
    background: var(--text);
-   transition: var(--transition);
+   transition: transform var(--transition), opacity var(--transition);
    border-radius: 2px
 }
 
@@ -305,7 +311,7 @@ select {
    gap: 2rem;
    opacity: 0;
    visibility: hidden;
-   transition: var(--transition)
+   transition: opacity var(--transition), visibility var(--transition)
 }
 
 .mobile-menu.open {
@@ -377,7 +383,7 @@ select {
    display: flex;
    align-items: center;
    justify-content: center;
-   transition: var(--transition);
+   transition: border-color var(--transition), color var(--transition), box-shadow var(--transition);
    font-size: .85rem
 }
 
@@ -422,7 +428,8 @@ select {
 
 /* ── Section Helpers ── */
 .section {
-   padding: 6rem 2rem
+   padding: 6rem 2rem;
+   contain: layout paint style;
 }
 
 .container {
@@ -470,7 +477,7 @@ select {
    border-radius: var(--radius-pill);
    font-weight: 600;
    font-size: .92rem;
-   transition: var(--transition);
+   transition: transform var(--transition), background-color var(--transition), box-shadow var(--transition), border-color var(--transition), color var(--transition);
    cursor: pointer;
    position: relative;
    overflow: hidden
@@ -504,7 +511,10 @@ select {
    padding: 2rem;
    backdrop-filter: blur(var(--glass-blur));
    -webkit-backdrop-filter: blur(var(--glass-blur));
-   transition: var(--transition)
+   will-change: transform;
+   transform: translateZ(0);
+   backface-visibility: hidden;
+   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
 .glass-card:hover {
@@ -563,13 +573,17 @@ select {
    align-items: center;
    padding: 7rem 2rem 4rem;
    position: relative;
-   overflow: hidden
+   overflow: hidden;
+   contain: layout paint style;
 }
 
 .hero-canvas {
    position: absolute;
    inset: 0;
-   z-index: 0
+   z-index: 0;
+   will-change: transform;
+   transform: translateZ(0);
+   backface-visibility: hidden;
 }
 
 .hero-glow {
@@ -834,7 +848,7 @@ select {
    border-radius: var(--radius-sm);
    background: rgba(0, 229, 255, .06);
    border: 1px solid rgba(0, 229, 255, .1);
-   transition: var(--transition)
+   transition: background-color var(--transition), box-shadow var(--transition), transform var(--transition)
 }
 
 .service-card:hover .icon {
@@ -868,7 +882,10 @@ select {
    position: relative;
    height: 320px;
    cursor: pointer;
-   transition: var(--transition)
+   will-change: transform;
+   transform: translateZ(0);
+   backface-visibility: hidden;
+   transition: transform var(--transition)
 }
 
 .project-card:hover {
@@ -916,7 +933,7 @@ select {
 .project-card .view-link {
    opacity: 0;
    transform: translateX(-10px);
-   transition: var(--transition);
+   transition: opacity var(--transition), transform var(--transition);
    color: var(--cyan);
    font-size: .85rem;
    margin-top: .5rem;
@@ -1120,6 +1137,9 @@ select {
    position: relative;
    overflow: hidden;
    box-shadow: var(--glow-cyan);
+   will-change: transform;
+   transform: translateZ(0);
+   backface-visibility: hidden;
 }
 
 .service-visual::after {
@@ -1206,7 +1226,7 @@ select {
    border: 1px solid var(--card-border);
    font-size: .88rem;
    white-space: nowrap;
-   transition: var(--transition)
+   transition: border-color var(--transition), color var(--transition)
 }
 
 .marquee-item:hover {
@@ -1250,7 +1270,7 @@ select {
    border: 1px solid var(--card-border);
    background: transparent;
    color: var(--muted);
-   transition: var(--transition)
+   transition: background-color var(--transition), color var(--transition), border-color var(--transition)
 }
 
 .filter-btn.active,
@@ -1272,7 +1292,10 @@ select {
    position: relative;
    height: 300px;
    cursor: pointer;
-   transition: var(--transition)
+   will-change: transform;
+   transform: translateZ(0);
+   backface-visibility: hidden;
+   transition: transform var(--transition)
 }
 
 .portfolio-card.hide {
@@ -1322,7 +1345,7 @@ select {
    justify-content: center;
    opacity: 0;
    visibility: hidden;
-   transition: var(--transition)
+   transition: opacity var(--transition), visibility var(--transition)
 }
 
 .project-modal.open {
@@ -1363,7 +1386,7 @@ select {
    cursor: pointer;
    font-size: 1.1rem;
    z-index: 2;
-   transition: var(--transition)
+   transition: border-color var(--transition), color var(--transition)
 }
 
 .modal-close:hover {
@@ -1520,7 +1543,7 @@ select {
    font-family: var(--font-heading);
    font-weight: 700;
    font-size: .85rem;
-   transition: var(--transition)
+   transition: border-color var(--transition), color var(--transition), box-shadow var(--transition)
 }
 
 .timeline-node.active .node-circle {
@@ -1755,7 +1778,7 @@ select {
    background-size: cover;
    background-position: center;
    border: 3px solid var(--card-border);
-   transition: var(--transition);
+   transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
    overflow: hidden;
 }
 
@@ -1939,7 +1962,7 @@ select {
    border-radius: var(--radius-sm);
    color: var(--text);
    font-size: .92rem;
-   transition: var(--transition)
+   transition: border-color var(--transition), box-shadow var(--transition)
 }
 
 .form-group input:focus,
@@ -2728,11 +2751,22 @@ body.light-mode .marquee-item {
 
    .service-detail {
       grid-template-columns: 1fr;
-      gap: 1.5rem
+      gap: 1.5rem;
+      display: flex;
+      flex-direction: column;
    }
 
    .service-detail:nth-child(even) {
-      direction: ltr
+      direction: ltr;
+      flex-direction: column-reverse;
+   }
+
+   .service-visual {
+      display: block;
+      width: 100%;
+      height: 250px;
+      min-height: 250px;
+      flex-shrink: 0;
    }
 
    .modal-content {
@@ -3643,4 +3677,19 @@ footer {
 
 .custom-checkbox input:checked~span {
    color: var(--cyan);
+}
+
+/* ═══════════════════════════════════════════
+   UPGRADE: MOBILE PERFORMANCE DEGRADATION
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+   .hero-glow {
+      filter: blur(100px);
+      opacity: 0.1;
+   }
+
+   .glass-card:hover {
+      box-shadow: none;
+      /* Reduce hover paint cost */
+   }
 }
