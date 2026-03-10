@@ -37,17 +37,18 @@
     <a href="index.html" class="nav-logo glitch" data-text="WEBHATRIX">WEBHA<span>TRIX</span></a>
     <div class="nav-links">
       <a href="index.html" ${linkClass('index.html')}>Home</a>
-      <a href="services.html" ${linkClass('services.html')}>Services</a>
-      <a href="work.html" ${linkClass('work.html')}>Work</a>
-      <a href="process.html" ${linkClass('process.html')}>Process</a>
       <a href="about.html" ${linkClass('about.html')}>About</a>
+      <a href="process.html" ${linkClass('process.html')}>Process</a>
+      <a href="work.html" ${linkClass('work.html')}>Work</a>
       <a href="blog.html" ${linkClass('blog.html')}>Blog</a>
       <a href="contact.html" ${linkClass('contact.html')}>Contact</a>
     </div>
-    <button id="theme-toggle" class="theme-btn" title="Toggle theme">🌙</button>
-    <a href="quote.html" class="nav-cta"><span>Start Project →</span></a>
-    <div class="menu-toggle" id="menuToggle">
-      <span></span><span></span><span></span>
+    <div class="nav-actions">
+      <button id="theme-toggle" class="theme-btn" title="Toggle theme">🌙</button>
+      <a href="quote.html" class="nav-cta"><span>Start Project →</span></a>
+      <div class="menu-toggle" id="menuToggle">
+        <span></span><span></span><span></span>
+      </div>
     </div>
   `;
   document.body.prepend(nav);
@@ -58,10 +59,9 @@
   mob.id = 'mobileMenu';
   mob.innerHTML = `
     <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="work.html">Work</a>
-    <a href="process.html">Process</a>
     <a href="about.html">About</a>
+    <a href="process.html">Process</a>
+    <a href="work.html">Work</a>
     <a href="blog.html">Blog</a>
     <a href="contact.html">Contact</a>
     <a href="quote.html" class="btn btn-primary" style="margin-top:1rem"><span>Start Project →</span></a>

@@ -136,20 +136,19 @@
 
     if (cursorDot && cursorRing && window.matchMedia('(hover:hover)').matches) {
         document.addEventListener('mousemove', e => {
-            if (!isHeroVisible) return;
             mX = e.clientX; mY = e.clientY;
             targetParallaxX = (e.clientX / window.innerWidth - 0.5) * 2;
             targetParallaxY = (e.clientY / window.innerHeight - 0.5) * 2;
         }, { passive: true });
 
         function cursorLoop() {
-            if (isHeroVisible) {
-                cursorDot.style.transform = `translate(${mX - 4}px,${mY - 4}px)`;
-                rX += (mX - rX) * 0.14;
-                rY += (mY - rY) * 0.14;
-                cursorRing.style.transform = `translate(${rX - 18}px,${rY - 18}px)`;
+            cursorDot.style.transform = `translate(${mX - 4}px,${mY - 4}px)`;
+            rX += (mX - rX) * 0.14;
+            rY += (mY - rY) * 0.14;
+            cursorRing.style.transform = `translate(${rX - 18}px,${rY - 18}px)`;
 
-                // UPGRADE 7: Parallax depth layers
+            // UPGRADE 7: Parallax depth layers (only if hero is visible)
+            if (isHeroVisible) {
                 heroParallaxX += (targetParallaxX - heroParallaxX) * 0.06;
                 heroParallaxY += (targetParallaxY - heroParallaxY) * 0.06;
                 parallaxLayers.forEach(layer => {

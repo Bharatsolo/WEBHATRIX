@@ -202,6 +202,7 @@ select {
 }
 
 .nav-logo {
+   flex: 1;
    font-family: var(--font-heading);
    font-weight: 800;
    font-size: 1.45rem;
@@ -214,8 +215,17 @@ select {
 
 .nav-links {
    display: flex;
-   gap: 2rem;
-   align-items: center
+   gap: 2.5rem;
+   align-items: center;
+   justify-content: center;
+}
+
+.nav-actions {
+   flex: 1;
+   display: flex;
+   align-items: center;
+   justify-content: flex-end;
+   gap: 1.5rem;
 }
 
 .nav-links a {
