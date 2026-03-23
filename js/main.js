@@ -115,203 +115,88 @@
     });
 
     /* ═══════════════════════════════════════════
-       GPU CURSOR (separate RAF)
+       UNIFIED INPUT & ANIMATION LOOP (Optimized)
        ═══════════════════════════════════════════ */
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorRing = document.querySelector('.cursor-ring');
-    let mX = -100, mY = -100, rX = -100, rY = -100;
-
-    // Parallax state
     const parallaxLayers = document.querySelectorAll('.p-layer');
-    let heroParallaxX = 0, heroParallaxY = 0;
-    let targetParallaxX = 0, targetParallaxY = 0;
+    const hero3d = document.getElementById('hero3d');
+    const titleMid = hero3d?.querySelector('.title-mid');
+    const titleBack = hero3d?.querySelector('.title-back');
 
-    // Global Hero Visibility State
+    let mX = -100, mY = -100, rX = -100, rY = -100;
+    let tPX = 0, tPY = 0, hPX = 0, hPY = 0; // Parallax
     let isHeroVisible = true;
-    const heroObserver = new IntersectionObserver((entries) => {
-        entries.forEach(e => isHeroVisible = e.isIntersecting);
-    }, { threshold: 0 });
-    const mainHeroSec = document.querySelector('.hero');
-    if (mainHeroSec) heroObserver.observe(mainHeroSec);
 
-    if (cursorDot && cursorRing && window.matchMedia('(hover:hover)').matches) {
-        document.addEventListener('mousemove', e => {
+    // Intersection Observer for Hero
+    const heroSec = document.querySelector('.hero');
+    if (heroSec) {
+        new IntersectionObserver(([e]) => isHeroVisible = e.isIntersecting, { threshold: 0 }).observe(heroSec);
+    }
+
+    const isDesktop = window.matchMedia('(hover:hover)').matches;
+
+    if (isDesktop && cursorDot && cursorRing) {
+        window.addEventListener('mousemove', e => {
             mX = e.clientX; mY = e.clientY;
-            targetParallaxX = (e.clientX / window.innerWidth - 0.5) * 2;
-            targetParallaxY = (e.clientY / window.innerHeight - 0.5) * 2;
+            tPX = (e.clientX / window.innerWidth - 0.5) * 2;
+            tPY = (e.clientY / window.innerHeight - 0.5) * 2;
         }, { passive: true });
 
-        function cursorLoop() {
-            cursorDot.style.transform = `translate(${mX - 4}px,${mY - 4}px)`;
-            rX += (mX - rX) * 0.14;
-            rY += (mY - rY) * 0.14;
-            cursorRing.style.transform = `translate(${rX - 18}px,${rY - 18}px)`;
-
-            // UPGRADE 7: Parallax depth layers (only if hero is visible)
-            if (isHeroVisible) {
-                heroParallaxX += (targetParallaxX - heroParallaxX) * 0.06;
-                heroParallaxY += (targetParallaxY - heroParallaxY) * 0.06;
-                parallaxLayers.forEach(layer => {
-                    const speed = parseFloat(layer.dataset.speed) || 0.05;
-                    layer.style.transform = `translate(${heroParallaxX * speed * 100}px, ${heroParallaxY * speed * 100}px)`;
-                });
-            }
-
-            requestAnimationFrame(cursorLoop);
-        }
-        cursorLoop();
-
-        // Hover states
-        document.querySelectorAll('a,button,.glass-card,.btn,.filter-btn,.faq-question,.portfolio-card,.menu-toggle,.whatsapp-float').forEach(el => {
-            el.addEventListener('mouseenter', () => {
+        // Event Delegation for Hover Effects
+        document.body.addEventListener('mouseover', e => {
+            const target = e.target.closest('a, button, .glass-card, .btn, .filter-btn, .faq-question, .portfolio-card, .menu-toggle, .whatsapp-float');
+            if (target) {
                 cursorDot.style.background = '#7C3AED';
                 cursorDot.style.boxShadow = '0 0 10px #7C3AED, 0 0 20px #7C3AED';
                 cursorRing.style.width = '54px'; cursorRing.style.height = '54px';
                 cursorRing.style.borderColor = '#7C3AED';
-            });
-            el.addEventListener('mouseleave', () => {
+            }
+        });
+
+        document.body.addEventListener('mouseout', e => {
+            const target = e.target.closest('a, button, .glass-card, .btn, .filter-btn, .faq-question, .portfolio-card, .menu-toggle, .whatsapp-float');
+            if (target) {
                 cursorDot.style.background = '#00E5FF';
                 cursorDot.style.boxShadow = '0 0 10px #00E5FF, 0 0 20px #00E5FF';
                 cursorRing.style.width = '36px'; cursorRing.style.height = '36px';
                 cursorRing.style.borderColor = 'rgba(0,229,255,0.5)';
-            });
-        });
-    }
-
-    /* ── UPGRADE 2: 3D TITLE PARALLAX ── */
-    const hero3d = document.getElementById('hero3d');
-    if (hero3d) {
-        const titleFront = hero3d.querySelector('.title-front');
-        const titleMid = hero3d.querySelector('.title-mid');
-        const titleBack = hero3d.querySelector('.title-back');
-
-        document.addEventListener('mousemove', e => {
-            if (!isHeroVisible) return;
-            const x = (e.clientX / window.innerWidth - 0.5) * 20;
-            const y = (e.clientY / window.innerHeight - 0.5) * 10;
-            if (titleFront) titleFront.style.transform = 'translate(0,0)';
-            if (titleMid) titleMid.style.transform = `translate(${3 + x * 0.3}px, ${3 + y * 0.3}px)`;
-            if (titleBack) titleBack.style.transform = `translate(${6 + x * 0.6}px, ${6 + y * 0.6}px)`;
-        }, { passive: true });
-    }
-
-    /* ═══════════════════════════════════════════
-       THREE.JS HERO (45fps cap)
-       ═══════════════════════════════════════════ */
-    const threeCanvas = document.getElementById('threeCanvas');
-    if (threeCanvas && typeof THREE !== 'undefined') {
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, threeCanvas.offsetWidth / threeCanvas.offsetHeight, 0.1, 100);
-        camera.position.z = 5;
-        const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-        renderer.setSize(threeCanvas.offsetWidth, threeCanvas.offsetHeight);
-        const geo1 = new THREE.IcosahedronGeometry(2.2, 1);
-        const mat1 = new THREE.MeshBasicMaterial({ wireframe: true, color: 0x00E5FF, opacity: 0.13, transparent: true });
-        const mesh1 = new THREE.Mesh(geo1, mat1);
-        scene.add(mesh1);
-        const geo2 = new THREE.IcosahedronGeometry(1.8, 1);
-        const mat2 = new THREE.MeshBasicMaterial({ wireframe: true, color: 0x7C3AED, opacity: 0.06, transparent: true });
-        const mesh2 = new THREE.Mesh(geo2, mat2);
-        scene.add(mesh2);
-        let targetRotX = 0, targetRotY = 0;
-        document.addEventListener('mousemove', e => {
-            targetRotX = (e.clientY / window.innerHeight - 0.5) * 0.4;
-            targetRotY = (e.clientX / window.innerWidth - 0.5) * 0.4;
-        }, { passive: true });
-        let lastFrame = 0; const FPS_INTERVAL = 1000 / 45; let threeActive = true;
-        function threeLoop(timestamp) {
-            if (!threeActive) return;
-            requestAnimationFrame(threeLoop);
-            const elapsed = timestamp - lastFrame;
-            if (elapsed < FPS_INTERVAL) return;
-            lastFrame = timestamp - (elapsed % FPS_INTERVAL);
-            mesh1.rotation.x += 0.0007; mesh1.rotation.y += 0.001;
-            mesh2.rotation.x -= 0.0005; mesh2.rotation.y -= 0.0008;
-            mesh1.rotation.x += (targetRotX - mesh1.rotation.x) * 0.03;
-            mesh1.rotation.y += (targetRotY - mesh1.rotation.y) * 0.03;
-            renderer.render(scene, camera);
-        }
-        requestAnimationFrame(threeLoop);
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) { threeActive = false; } else { threeActive = true; requestAnimationFrame(threeLoop); }
-        });
-
-        // Use global isHeroVisible tracker to throttle canvas
-        const threeCheckInterval = setInterval(() => {
-            if (isHeroVisible && !document.hidden && !threeActive) {
-                threeActive = true;
-                requestAnimationFrame(threeLoop);
-            } else if (!isHeroVisible) {
-                threeActive = false;
             }
-        }, 300);
+        });
 
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                camera.aspect = threeCanvas.offsetWidth / threeCanvas.offsetHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(threeCanvas.offsetWidth, threeCanvas.offsetHeight);
-            }, 300);
-        }, { passive: true });
-    }
+        function unifiedLoop() {
+            // Cursor
+            cursorDot.style.transform = `translate(${mX - 4}px,${mY - 4}px)`;
+            rX += (mX - rX) * 0.15;
+            rY += (mY - rY) * 0.15;
+            cursorRing.style.transform = `translate(${rX - 18}px,${rY - 18}px)`;
 
-    /* ── Particle Canvas ── */
-    const canvas = document.getElementById('particleCanvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let W, H, particles = [];
-        function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
-        resize();
-        let pResizeTimer;
-        window.addEventListener('resize', () => { clearTimeout(pResizeTimer); pResizeTimer = setTimeout(resize, 300); });
-        const pCount = document.getElementById('threeCanvas') ? 40 : 130;
-        const COLORS = ['rgba(0,229,255,', 'rgba(124,58,237,'];
-        for (let i = 0; i < pCount; i++) {
-            particles.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, c: COLORS[i % 2] });
-        }
-        let lastParticleFrame = 0;
-        const PARTICLE_FPS_INTERVAL = 1000 / 30; // 30 FPS cap
+            if (isHeroVisible) {
+                // Background Parallax
+                hPX += (tPX - hPX) * 0.08;
+                hPY += (tPY - hPY) * 0.08;
+                parallaxLayers.forEach(l => {
+                    const s = parseFloat(l.dataset.speed) || 0.05;
+                    l.style.transform = `translate(${hPX * s * 100}px, ${hPY * s * 100}px)`;
+                });
 
-        function drawParticles(timestamp) {
-            if (particlesActive) requestAnimationFrame(drawParticles);
-
-            const elapsed = timestamp - lastParticleFrame;
-            if (elapsed < PARTICLE_FPS_INTERVAL) return;
-            lastParticleFrame = timestamp - (elapsed % PARTICLE_FPS_INTERVAL);
-
-            ctx.clearRect(0, 0, W, H);
-            for (let i = 0; i < particles.length; i++) {
-                const p = particles[i];
-                p.x += p.vx; p.y += p.vy;
-                if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-                if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = p.c + '0.7)'; ctx.fill();
-                for (let j = i + 1; j < particles.length; j++) {
-                    const q = particles[j];
-                    const dx = p.x - q.x, dy = p.y - q.y, d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < 120) { ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.strokeStyle = 'rgba(0,229,255,' + (1 - d / 120) * 0.15 + ')'; ctx.lineWidth = 0.5; ctx.stroke(); }
+                // Title Parallax
+                if (titleMid && titleBack) {
+                    const tx = tPX * 15;
+                    const ty = tPY * 8;
+                    titleMid.style.transform = `translate(${3 + tx * 0.3}px, ${3 + ty * 0.3}px)`;
+                    titleBack.style.transform = `translate(${6 + tx * 0.6}px, ${6 + ty * 0.6}px)`;
                 }
             }
+            requestAnimationFrame(unifiedLoop);
         }
-
-        let particlesActive = true;
-
-        // Use global isHeroVisible tracker
-        setInterval(() => {
-            if (isHeroVisible && !particlesActive) {
-                particlesActive = true;
-                requestAnimationFrame(drawParticles);
-            } else if (!isHeroVisible) {
-                particlesActive = false;
-            }
-        }, 300);
-
-        drawParticles();
+        unifiedLoop();
     }
+
+
+    /* ═══════════════════════════════════════════
+       Hanging features removed (Three.js and Particle Canvas)
+       ═══════════════════════════════════════════ */
 
     /* ── Typing Animation ── */
     const typingEl = document.getElementById('typingText');
@@ -500,43 +385,40 @@
         counters.forEach(c => cobs.observe(c));
     }
 
-    /* ── 3D Tilt Cards ── */
+    /* ── 3D Tilt Cards (Optimized — No per-frame mouse listener) ── */
     document.querySelectorAll('.glass-card, .portfolio-card, .project-card, .blog-card').forEach(card => {
-        if (window.matchMedia('(hover:none)').matches) return;
-        card.classList.add('tilt-card');
-        card.style.position = card.style.position || 'relative';
-        const glare = document.createElement('div');
-        glare.className = 'card-glare';
-        card.appendChild(glare);
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            card.style.transform = `perspective(800px) rotateY(${x * 16}deg) rotateX(${-y * 16}deg) translateZ(10px)`;
-            card.style.transition = 'transform 0.1s ease';
-            glare.style.background = `radial-gradient(circle at ${x * 100 + 50}% ${y * 100 + 50}%, rgba(255,255,255,0.08), transparent 60%)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(800px) rotateY(0) rotateX(0) translateZ(0)';
-            card.style.transition = 'transform 0.5s ease';
-            glare.style.background = 'none';
-        });
+        if (isDesktop) {
+            card.classList.add('tilt-card');
+            const glare = document.createElement('div');
+            glare.className = 'card-glare';
+            card.appendChild(glare);
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.transform = `perspective(800px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg) translateZ(10px)`;
+                glare.style.background = `radial-gradient(circle at ${x * 100 + 50}% ${y * 100 + 50}%, rgba(255,255,255,0.06), transparent 60%)`;
+            }, { passive: true });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(800px) rotateY(0) rotateX(0) translateZ(0)';
+                glare.style.background = 'none';
+            });
+        }
     });
 
-    /* ── Magnetic Buttons ── */
+    /* ── Magnetic Buttons (Optimized) ── */
     document.querySelectorAll('.btn, .nav-cta, .footer-socials a').forEach(btn => {
-        if (window.matchMedia('(hover:none)').matches) return;
-        btn.addEventListener('mouseenter', () => { btn.style.transition = 'transform 0.1s linear'; });
-        btn.addEventListener('mousemove', e => {
-            const rect = btn.getBoundingClientRect();
-            const x = (e.clientX - rect.left - rect.width / 2) * 0.35;
-            const y = (e.clientY - rect.top - rect.height / 2) * 0.35;
-            btn.style.transform = `translate(${x}px, ${y}px)`;
-        });
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = 'translate(0,0)';
-            btn.style.transition = 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
-        });
+        if (isDesktop) {
+            btn.addEventListener('mousemove', e => {
+                const rect = btn.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) * 0.25;
+                const y = (e.clientY - rect.top - rect.height / 2) * 0.25;
+                btn.style.transform = `translate(${x}px, ${y}px)`;
+            }, { passive: true });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0,0)';
+            });
+        }
     });
 
     /* ── FAQ Accordion ── */
@@ -669,45 +551,7 @@
         });
     }
 
-    /* ═══════════════════════════════════════════
-       ANIMATED GRAIN OVERLAY
-       ═══════════════════════════════════════════ */
-    const g = document.getElementById('grain');
-    const gc = g ? g.getContext('2d') : null;
-    function renderGrain() {
-        if (!gc) return;
-        g.width = window.innerWidth; g.height = window.innerHeight;
-        const img = gc.createImageData(g.width, g.height);
-        const d = img.data;
-        for (let i = 0; i < d.length; i += 4) { const v = Math.random() * 255 | 0; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
-        gc.putImageData(img, 0, 0);
-    }
-    let grainTick = 0;
-    function grainLoop() { if (++grainTick % 4 === 0) renderGrain(); requestAnimationFrame(grainLoop); }
-    if (gc) { renderGrain(); grainLoop(); }
 
-    /* ── CURSOR SPARKLE TRAIL ── */
-    let lastSparkleTime = 0;
-    document.addEventListener('mousemove', e => {
-        const now = Date.now();
-        if (now - lastSparkleTime < 55) return;
-        lastSparkleTime = now;
-        const s = document.createElement('div');
-        const size = 2 + Math.random() * 4;
-        const color = Math.random() > 0.5 ? '#00E5FF' : '#7C3AED';
-        const angle = Math.random() * 360;
-        const dist = 10 + Math.random() * 20;
-        s.style.cssText = `position:fixed;pointer-events:none;z-index:99995;width:${size}px;height:${size}px;border-radius:50%;background:${color};box-shadow:0 0 6px ${color};left:${e.clientX}px;top:${e.clientY}px;transform:translate(-50%,-50%);transition:all 0.65s ease;opacity:1;`;
-        document.body.appendChild(s);
-        requestAnimationFrame(() => {
-            const rad = angle * Math.PI / 180;
-            s.style.opacity = '0';
-            s.style.left = `${e.clientX + Math.cos(rad) * dist}px`;
-            s.style.top = `${e.clientY + Math.sin(rad) * dist}px`;
-            s.style.transform = 'translate(-50%,-50%) scale(0)';
-        });
-        setTimeout(() => s.remove(), 700);
-    }, { passive: true });
 
     /* ── SECTION NAV DOTS ── */
     const sections = document.querySelectorAll('section[id]');
@@ -732,44 +576,7 @@
         sections.forEach(s => dotObserver.observe(s));
     }
 
-    /* ═══════════════════════════════════════════
-       UPGRADE 3: MORPHING BLOBS
-       ═══════════════════════════════════════════ */
-    function animateBlobs() {
-        const paths = [document.querySelector('.blob-path-1'), document.querySelector('.blob-path-2')];
-        if (!paths[0]) return;
-        let t = 0;
-        function blobLoop() {
-            t += 0.004;
-            if (paths[0]) paths[0].setAttribute('d', generateBlobPath(450, 450, 280, t, 4, 0.4));
-            if (paths[1]) paths[1].setAttribute('d', generateBlobPath(450, 450, 260, t * 0.8 + 2, 5, 0.3));
-            requestAnimationFrame(blobLoop);
-        }
-        blobLoop();
-    }
-    function generateBlobPath(cx, cy, r, t, complexity, variance) {
-        const points = 12;
-        const angleStep = (Math.PI * 2) / points;
-        let coords = [];
-        for (let i = 0; i < points; i++) {
-            const angle = i * angleStep;
-            const noise = Math.sin(t + i * complexity) * variance + Math.cos(t * 0.7 + i * 2) * variance * 0.5;
-            const radius = r * (1 + noise);
-            coords.push([cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius]);
-        }
-        let d = `M ${coords[0][0]},${coords[0][1]}`;
-        for (let i = 0; i < points; i++) {
-            const curr = coords[i];
-            const next = coords[(i + 1) % points];
-            const cp1x = curr[0] + (next[0] - coords[(i - 1 + points) % points][0]) / 6;
-            const cp1y = curr[1] + (next[1] - coords[(i - 1 + points) % points][1]) / 6;
-            const cp2x = next[0] - (coords[(i + 2) % points][0] - curr[0]) / 6;
-            const cp2y = next[1] - (coords[(i + 2) % points][1] - curr[1]) / 6;
-            d += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${next[0]},${next[1]}`;
-        }
-        return d + ' Z';
-    }
-    animateBlobs();
+    /* Morphing Blobs hanging section removed */
 
     /* ═══════════════════════════════════════════
        UPGRADE 8: RANDOM GLITCH ON LOGO

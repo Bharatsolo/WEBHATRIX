@@ -380,7 +380,7 @@ select {
 }
 
 .footer-socials {
-   display: flex;
+   display: none !important; /* Hidden for now per client request — will enable in future */
    gap: .75rem;
    margin-top: 1rem
 }
@@ -544,19 +544,16 @@ select {
 .js-enabled .reveal {
    opacity: 0;
    transform: translateY(40px);
-   filter: blur(4px);
 }
 
 .js-enabled .reveal-left {
    opacity: 0;
    transform: translateX(-50px);
-   filter: blur(4px);
 }
 
 .js-enabled .reveal-right {
    opacity: 0;
    transform: translateX(50px);
-   filter: blur(4px);
 }
 
 .js-enabled .portfolio-card.reveal {
@@ -569,7 +566,6 @@ select {
 .js-enabled .portfolio-card.reveal.visible {
    opacity: 1 !important;
    transform: translate(0) scale(1);
-   filter: blur(0);
 }
 
 /* ═══════════════════════════════════════════
@@ -601,20 +597,19 @@ select {
    width: 600px;
    height: 600px;
    border-radius: 50%;
-   filter: blur(160px);
-   opacity: .18;
+   opacity: .3;
    pointer-events: none;
    z-index: 0
 }
 
 .hero-glow--cyan {
-   background: var(--cyan);
+   background: radial-gradient(circle, rgba(0,229,255,0.8) 0%, transparent 70%);
    top: -10%;
    left: -10%
 }
 
 .hero-glow--violet {
-   background: var(--violet);
+   background: radial-gradient(circle, rgba(124,58,237,0.8) 0%, transparent 70%);
    bottom: -10%;
    right: -10%
 }

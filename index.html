@@ -8,7 +8,7 @@
   <meta name="format-detection" content="telephone=no">
   <title>Webhatrix Technologies — We Build. We Scale. We Deliver.</title>
   <meta name="description"
-    content="Full-stack development agency building high-performance web apps, mobile apps, SaaS platforms and AI integrations. 120+ projects delivered. 99% client retention.">
+    content="Full-stack development agency building high-performance web apps, mobile apps, SaaS platforms and AI integrations. 30+ projects delivered. 99% client retention.">
   <meta name="keywords"
     content="web development agency, mobile app development, SaaS development, full stack development, React, Node.js, Next.js">
   <meta name="author" content="Webhatrix Technologies">
@@ -22,7 +22,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Webhatrix Technologies — We Build. We Scale. We Deliver.">
   <meta property="og:description"
-    content="Full-stack development agency. 120+ projects. Web apps, mobile apps, SaaS, AI integrations.">
+    content="Full-stack development agency. 30+ projects. Web apps, mobile apps, SaaS, AI integrations.">
   <meta property="og:url" content="https://webhatrix.com/">
   <meta property="og:image" content="https://webhatrix.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -30,11 +30,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@webhatrix">
   <meta name="twitter:title" content="Webhatrix Technologies">
-  <meta name="twitter:description" content="Full-stack development agency. 120+ projects delivered.">
+  <meta name="twitter:description" content="Full-stack development agency. 30+ projects delivered.">
   <meta name="twitter:image" content="https://webhatrix.com/og-image.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -53,7 +52,7 @@
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
-      "email": "hello@webhatrix.com",
+      "email": "bharadwaj0389@gmail.com",
       "availableLanguage": ["English", "Hindi"]
     },
     "sameAs": [
@@ -85,58 +84,8 @@
 
   <!-- ═══ HERO ═══ -->
   <section class="hero">
-    <canvas id="threeCanvas"
-      style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
-    <canvas id="particleCanvas" class="hero-canvas" style="z-index:0"></canvas>
     <div class="hero-glow hero-glow--cyan"></div>
     <div class="hero-glow hero-glow--violet"></div>
-
-    <!-- Morphing Blobs -->
-    <div class="blob-container" aria-hidden="true">
-      <svg class="blob blob-1" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="blur1">
-            <feGaussianBlur stdDeviation="60" />
-          </filter>
-        </defs>
-        <g filter="url(#blur1)">
-          <path class="blob-path-1" fill="#00E5FF" opacity="0.07" />
-        </g>
-      </svg>
-      <svg class="blob blob-2" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="blur2">
-            <feGaussianBlur stdDeviation="80" />
-          </filter>
-        </defs>
-        <g filter="url(#blur2)">
-          <path class="blob-path-2" fill="#7C3AED" opacity="0.07" />
-        </g>
-      </svg>
-    </div>
-
-    <!-- Parallax Depth Layers -->
-    <div class="parallax-layers" aria-hidden="true">
-      <div class="p-layer" data-speed="0.02">
-        <div class="p-circle p-c1"></div>
-        <div class="p-circle p-c2"></div>
-      </div>
-      <div class="p-layer" data-speed="0.05">
-        <div class="p-dots"></div>
-      </div>
-      <div class="p-layer" data-speed="0.08">
-        <svg class="p-geo" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="400,50 650,450 150,450" fill="none" stroke="rgba(0,229,255,0.04)" stroke-width="1" />
-          <polygon points="400,100 600,420 200,420" fill="none" stroke="rgba(124,58,237,0.04)" stroke-width="1" />
-          <circle cx="400" cy="300" r="200" fill="none" stroke="rgba(0,229,255,0.03)" stroke-width="1" />
-        </svg>
-      </div>
-      <div class="p-layer" data-speed="0.12">
-        <div class="p-orb p-orb1"></div>
-        <div class="p-orb p-orb2"></div>
-        <div class="p-orb p-orb3"></div>
-      </div>
-    </div>
 
     <div class="container">
       <div class="hero-left hero-content">
@@ -155,27 +104,75 @@
         </div>
       </div>
 
-      <div class="dashboard-mockup reveal-right">
-        <div class="mockup-header"><span></span><span></span><span></span></div>
-        <div class="mockup-metrics">
-          <div class="metric-card">
-            <div class="number">98.7%</div>
-            <div class="label">Uptime</div>
-          </div>
-          <div class="metric-card">
-            <div class="number">2.4K</div>
-            <div class="label">Users / day</div>
-          </div>
-          <div class="metric-card">
-            <div class="number">340ms</div>
-            <div class="label">Avg Response</div>
-          </div>
-          <div class="metric-card">
-            <div class="number">$12.8K</div>
-            <div class="label">MRR</div>
+      <div class="dashboard-mockup reveal-right" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; min-height: auto;">
+        <div class="mockup-header" style="margin-bottom: 0;"><span></span><span></span><span></span></div>
+        
+        <!-- Process Graphic -->
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.2rem;">
+          <h4 style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;">Our Process</h4>
+          <div style="display: flex; justify-content: space-between; align-items: center; position: relative;">
+            <div style="position: absolute; top: 18px; left: 10%; right: 10%; height: 2px; background: rgba(255,255,255,0.05); z-index: 1; border-radius: 2px; overflow: hidden;">
+              <div style="height: 100%; background: #00E5FF; box-shadow: 0 0 10px #00E5FF; animation: lineFill 6s infinite linear;"></div>
+            </div>
+            
+            <style>
+              @keyframes lineFill {
+                0% { width: 0%; opacity: 0; }
+                5% { width: 0%; opacity: 1; }
+                75% { width: 100%; opacity: 1; }
+                85% { width: 100%; opacity: 0; }
+                100% { width: 0%; opacity: 0; }
+              }
+              @keyframes processGlow {
+                0% { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); color: #fff; box-shadow: none; transform: scale(1); }
+                10%, 25% { background: #00E5FF; border-color: #00E5FF; color: #04060F; box-shadow: 0 0 15px #00E5FF; transform: scale(1.15); }
+                35%, 100% { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); color: #fff; box-shadow: none; transform: scale(1); }
+              }
+              .process-step-circle {
+                width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); 
+                display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 0.5rem;
+                animation: processGlow 6s infinite; transition: all 0.3s ease; background: rgba(255, 255, 255, 0.1); color: #fff;
+              }
+            </style>
+            <div style="text-align: center; z-index: 2;">
+              <div class="process-step-circle" style="animation-delay: 0s;">1</div>
+              <div style="font-size: 0.75rem; color: #fff;">Idea</div>
+            </div>
+            <div style="text-align: center; z-index: 2;">
+              <div class="process-step-circle" style="animation-delay: 1.5s;">2</div>
+              <div style="font-size: 0.75rem; color: #fff;">Design</div>
+            </div>
+            <div style="text-align: center; z-index: 2;">
+              <div class="process-step-circle" style="animation-delay: 3s;">3</div>
+              <div style="font-size: 0.75rem; color: #fff;">Develop</div>
+            </div>
+            <div style="text-align: center; z-index: 2;">
+              <div class="process-step-circle" style="animation-delay: 4.5s;">4</div>
+              <div style="font-size: 0.75rem; color: #fff;">Launch</div>
+            </div>
           </div>
         </div>
-        <div class="mockup-chart"></div>
+
+        <!-- Trust Badges -->
+        <h4 style="font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 0;">Why Webhatrix</h4>
+        <div class="mockup-metrics" style="margin-top: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="metric-card" style="padding: 1rem; background: rgba(255,255,255,0.02); min-width: auto; height: auto;">
+            <div class="number" style="font-size: 1.5rem; color: #00E5FF; line-height: 1;">30+</div>
+            <div class="label" style="font-size: 0.75rem; margin-top: 0.5rem;">Projects Delivered</div>
+          </div>
+          <div class="metric-card" style="padding: 1rem; background: rgba(255,255,255,0.02); min-width: auto; height: auto;">
+            <div class="number" style="font-size: 1.5rem; color: #7C3AED; line-height: 1;">5.0 ★</div>
+            <div class="label" style="font-size: 0.75rem; margin-top: 0.5rem;">Client Rating</div>
+          </div>
+          <div class="metric-card" style="padding: 1rem; background: rgba(255,255,255,0.02); min-width: auto; height: auto;">
+            <div class="number" style="font-size: 1.5rem; color: #7C3AED; line-height: 1;">100%</div>
+            <div class="label" style="font-size: 0.75rem; margin-top: 0.5rem;">On-Time Delivery</div>
+          </div>
+          <div class="metric-card" style="padding: 1rem; background: rgba(255,255,255,0.02); min-width: auto; height: auto;">
+            <div class="number" style="font-size: 1.5rem; color: #00E5FF; line-height: 1;">24/7</div>
+            <div class="label" style="font-size: 0.75rem; margin-top: 0.5rem;">Support & Maint.</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -186,7 +183,7 @@
   <section class="stats-strip">
     <div class="container">
       <div class="stat-item reveal" data-delay="0">
-        <div class="stat-number" data-count="120" data-suffix="+">0</div>
+        <div class="stat-number" data-count="30" data-suffix="+">0</div>
         <div class="stat-label">Projects Delivered</div>
       </div>
       <div class="stat-item reveal" data-delay="100">
@@ -299,32 +296,39 @@
       <p class="section-label">—— PORTFOLIO ——</p>
       <h2 class="section-title">Work That Speaks</h2>
       <div class="featured-grid" style="margin-top:2rem">
-        <div class="project-card reveal" data-delay="0">
-          <div class="project-cover" style="background:url('images/ecommerce_proj.png') center/cover no-repeat">
-          </div>
+        <a href="https://durgatoursandtravels.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="0">
+          <div class="project-cover" style="background:url('images/durga_tours.png') center/cover no-repeat"></div>
           <div class="project-card-content">
-            <h3>E-Commerce Platform</h3>
-            <div class="project-tags"><span>React</span><span>Node.js</span><span>Stripe</span></div>
-            <div class="view-link">View Case Study →</div>
+            <h3>Durga Tours and Travels</h3>
+            <div class="project-tags"><span>Website</span><span>Travel</span><span>Booking</span></div>
+            <div class="view-link">Visit Website →</div>
           </div>
-        </div>
-        <div class="project-card reveal" data-delay="100">
-          <div class="project-cover" style="background:url('images/saas_proj.png') center/cover no-repeat"></div>
+        </a>
+        <a href="https://srihesrithascloudkitchen.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="100">
+          <div class="project-cover" style="background:url('images/cloud_kitchen.png') center/cover no-repeat"></div>
           <div class="project-card-content">
-            <h3>SaaS Dashboard</h3>
-            <div class="project-tags"><span>Next.js</span><span>PostgreSQL</span><span>AWS</span></div>
-            <div class="view-link">View Case Study →</div>
+            <h3>Sri Hesritha's Cloud Kitchen</h3>
+            <div class="project-tags"><span>Website</span><span>Food</span><span>Cloud Kitchen</span></div>
+            <div class="view-link">Visit Website →</div>
           </div>
-        </div>
-        <div class="project-card reveal" data-delay="200">
-          <div class="project-cover" style="background:url('images/ai_proj.png') center/cover no-repeat"></div>
+        </a>
+        <a href="https://rktoursntravels.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="200">
+          <div class="project-cover" style="background:url('images/rk_tours.png') center/cover no-repeat"></div>
           <div class="project-card-content">
-            <h3>AI Chatbot Integration</h3>
-            <div class="project-tags"><span>Python</span><span>OpenAI</span><span>React</span></div>
-            <div class="view-link">View Case Study →</div>
+            <h3>RK Tours N Travels</h3>
+            <div class="project-tags"><span>Website</span><span>Travel</span><span>Booking</span></div>
+            <div class="view-link">Visit Website →</div>
           </div>
-        </div>
-        <div style="text-align:center;margin-top:2rem"><a href="work.html" class="btn btn-ghost"><span>View All Projects
+        </a>
+        <a href="https://www.svayogashala.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="300">
+          <div class="project-cover" style="background:url('images/sva_yoga.png') center/cover no-repeat"></div>
+          <div class="project-card-content">
+            <h3>SVA Yoga Shala</h3>
+            <div class="project-tags"><span>Website</span><span>Yoga</span><span>Health</span></div>
+            <div class="view-link">Visit Website →</div>
+          </div>
+        </a>
+        <div style="text-align:center;margin-top:2rem;width:100%;grid-column: 1 / -1;"><a href="work.html" class="btn btn-ghost"><span>View All Projects
               →</span></a></div>
       </div>
   </section>
@@ -390,7 +394,6 @@
     </div>
   </section>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/components.js"></script>
   <script src="js/main.js"></script>
 </body>
