@@ -519,6 +519,43 @@
                     form.style.display = 'none';
                     const successMsg = form.parentElement.querySelector('.form-success');
                     if (successMsg) successMsg.classList.add('show');
+
+                    // ── WhatsApp Redirection ──
+                    const services = [];
+                    for (let [key, value] of formData.entries()) {
+                        if (key === 'services') services.push(value);
+                    }
+                    const waData = Object.fromEntries(formData.entries());
+                    if (services.length > 0) waData.services = services.join(', ');
+
+                    let waMessage = `*🚀 NEW INQUIRY FROM WEBHATRIX*\n\n`;
+                    const labels = {
+                        name: 'Name',
+                        email: 'Email',
+                        phone: 'Phone',
+                        company: 'Company',
+                        projectType: 'Project Type',
+                        services: 'Services',
+                        budget: 'Budget',
+                        timeline: 'Timeline',
+                        description: 'Description',
+                        references: 'References',
+                        source: 'Heard From'
+                    };
+
+                    for (const key in waData) {
+                        if (labels[key] && waData[key]) {
+                            waMessage += `• *${labels[key]}:* ${waData[key]}\n\n`;
+                        }
+                    }
+
+                    const waUrl = `https://wa.me/917569645049?text=${encodeURIComponent(waMessage)}`;
+                    
+                    // Small delay to let the user see the success message
+                    setTimeout(() => {
+                        window.location.href = waUrl;
+                    }, 1500);
+
                 } else {
                     console.error('Form Error:', data);
                     alert('Something went wrong submitting your request. Please try again later.');

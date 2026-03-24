@@ -129,7 +129,6 @@
         <h4>Contact</h4>
         <ul>
           <li><a href="mailto:bharadwaj0389@gmail.com"><span>bharadwaj0389@gmail.com</span></a></li>
-          <li><a href="tel:+916302567165"><span>+91 63025 67165</span></a></li>
           <li><a href="tel:+917569645049"><span>+91 75696 45049</span></a></li>
           <li><a href="quote.html"><span>Get a Quote</span></a></li>
         </ul>
@@ -144,7 +143,7 @@
 
   /* ── WhatsApp Floating Button ── */
   const wa = document.createElement('a');
-  wa.href = 'https://wa.me/916302567165?text=Hi%20Webhatrix!%20I%20have%20a%20project%20to%20discuss.';
+  wa.href = 'https://wa.me/917569645049?text=Hi%20Webhatrix!%20I%20have%20a%20project%20to%20discuss.';
   wa.target = '_blank';
   wa.className = 'whatsapp-float';
   wa.title = 'Chat on WhatsApp';
