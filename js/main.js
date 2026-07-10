@@ -463,6 +463,17 @@
                 modal.querySelector('.modal-solution').textContent = data.solution;
                 modal.querySelector('.modal-tech-tags').innerHTML = data.tech.map(t => `<span class="tech-tag">${t}</span>`).join('');
                 modal.querySelector('.modal-results').innerHTML = data.results.map(r => `<div class="result"><div class="val">${r.val}</div><div class="rlabel">${r.label}</div></div>`).join('');
+
+                const linkBtn = modal.querySelector('.modal-link');
+                if (linkBtn) {
+                    if (data.link && data.link !== '#') {
+                        linkBtn.href = data.link;
+                        linkBtn.style.display = 'inline-block';
+                    } else {
+                        linkBtn.style.display = 'none';
+                    }
+                }
+
                 modal.classList.add('open'); document.body.style.overflow = 'hidden';
             });
         });
@@ -550,7 +561,7 @@
                     }
 
                     const waUrl = `https://wa.me/917569645049?text=${encodeURIComponent(waMessage)}`;
-                    
+
                     // Small delay to let the user see the success message
                     setTimeout(() => {
                         window.location.href = waUrl;

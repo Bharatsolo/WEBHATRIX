@@ -5,3 +5,4 @@ Sitemap: https://webhatrix.com/sitemap.xml
 
 Disallow: /css/
 Disallow: /js/
+Disallow: /blog.html

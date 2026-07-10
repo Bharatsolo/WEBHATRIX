@@ -158,7 +158,7 @@ select {
    top: 0;
    left: 0;
    pointer-events: none;
-   z-index: 99999;
+   z-index: 100001;
    will-change: transform;
    box-shadow: 0 0 10px #00E5FF, 0 0 20px #00E5FF;
    transition: background .2s, box-shadow .2s
@@ -173,7 +173,7 @@ select {
    top: 0;
    left: 0;
    pointer-events: none;
-   z-index: 99998;
+   z-index: 100000;
    will-change: transform, border-color, width, height;
    transform: translateZ(0);
    backface-visibility: hidden;
@@ -955,7 +955,7 @@ select {
 /* Why Choose Us */
 .why-grid {
    display: grid;
-   grid-template-columns: repeat(3, 1fr);
+   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
    gap: 2rem
 }
 

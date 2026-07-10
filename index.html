@@ -38,34 +38,62 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Webhatrix Technologies",
-    "url": "https://webhatrix.com",
-    "logo": "https://webhatrix.com/favicon.svg",
-    "description": "Full-stack development agency building web apps, mobile apps, SaaS platforms and AI integrations.",
-    "slogan": "We Build. We Scale. We Deliver.",
-    "foundingDate": "2019",
-    "numberOfEmployees": { "@type": "QuantitativeValue", "value": "10" },
-    "address": { "@type": "PostalAddress", "addressCountry": "IN" },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "email": "bharadwaj0389@gmail.com",
-      "availableLanguage": ["English", "Hindi"]
-    },
-    "sameAs": [
-      "https://linkedin.com/company/webhatrix",
-      "https://github.com/webhatrix",
-      "https://twitter.com/webhatrix"
-    ],
-    "service": [
-      "Web Development", "Mobile App Development",
-      "UI/UX Design", "SaaS Development",
-      "E-Commerce Development", "AI Integration"
-    ]
-  }
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Webhatrix Technologies",
+      "image": "https://webhatrix.com/og-image.jpg",
+      "@id": "https://webhatrix.com",
+      "url": "https://webhatrix.com",
+      "telephone": "+916302567165",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Marathahalli",
+        "addressLocality": "Bangalore",
+        "addressRegion": "Karnataka",
+        "postalCode": "560037",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 12.9562,
+        "longitude": 77.7019
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "21:00"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/webhatrix/",
+        "https://github.com/webhatrix",
+        "https://twitter.com/webhatrix"
+      ],
+      "priceRange": "$$",
+      "description": "Full-stack development agency in Bangalore building high-performance web apps, mobile apps, SaaS platforms and AI integrations.",
+      "slogan": "We Build. We Scale. We Deliver.",
+      "foundingDate": "2019",
+      "numberOfEmployees": { "@type": "QuantitativeValue", "value": "10" },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "webhatrix8@gmail.com",
+        "availableLanguage": ["English", "Hindi"]
+      },
+      "service": [
+        "Web Development", "Mobile App Development",
+        "UI/UX Design", "SaaS Development",
+        "E-Commerce Development", "AI Integration"
+      ]
+    }
   </script>
 </head>
 
@@ -99,8 +127,8 @@
         <p class="hero-sub">Full-stack development. Scalable systems. Pixel-perfect UI.</p>
         <div class="typing-line">Building <span id="typingText"></span></div>
         <div class="hero-buttons">
-          <a href="work.html" class="btn btn-primary"><span>See Our Work →</span></a>
-          <a href="contact.html" class="btn btn-ghost"><span>Book a Free Call</span></a>
+          <a href="quote.html" class="btn btn-primary"><span>Start Project →</span></a>
+          <a href="work.html" class="btn btn-ghost"><span>See Our Work</span></a>
         </div>
       </div>
 
@@ -247,6 +275,44 @@
       that trust us</p>
   </section>
 
+  <!-- ═══ TECH STACK MARQUEE ═══ -->
+  <section class="marquee-section tech-marquee" style="background:var(--bg-dark);padding-bottom:4rem">
+    <div class="container" style="text-align:center;padding:0 2rem;margin-bottom:3rem">
+      <p class="section-label reveal">—— OUR TECH STACK ——</p>
+      <h2 class="section-title reveal">Industry-Leading Technologies</h2>
+      <p class="section-subtitle reveal" style="margin:1rem auto 0;text-align:center;max-width:600px">We use the most advanced
+        and scalable tools to build your future-ready products.</p>
+    </div>
+    <div
+      style="overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);color:#fff">
+      <div class="marquee-row">
+        <span class="marquee-item tech">React</span>
+        <span class="marquee-item tech">Next.js</span>
+        <span class="marquee-item tech">OpenAI</span>
+        <span class="marquee-item tech">Flutter</span>
+        <span class="marquee-item tech">Node.js</span>
+        <span class="marquee-item tech">AWS</span>
+        <span class="marquee-item tech">Firebase</span>
+        <span class="marquee-item tech">PostgreSQL</span>
+        <span class="marquee-item tech">Tailwind CSS</span>
+        <span class="marquee-item tech">TypeScript</span>
+        <span class="marquee-item tech">Shopify</span>
+        <!-- Duplicates for loop -->
+        <span class="marquee-item tech">React</span>
+        <span class="marquee-item tech">Next.js</span>
+        <span class="marquee-item tech">OpenAI</span>
+        <span class="marquee-item tech">Flutter</span>
+        <span class="marquee-item tech">Node.js</span>
+        <span class="marquee-item tech">AWS</span>
+        <span class="marquee-item tech">Firebase</span>
+        <span class="marquee-item tech">PostgreSQL</span>
+        <span class="marquee-item tech">Tailwind CSS</span>
+        <span class="marquee-item tech">TypeScript</span>
+        <span class="marquee-item tech">Shopify</span>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══ SERVICES PREVIEW ═══ -->
   <section class="section">
     <div class="container">
@@ -278,10 +344,20 @@
           <h3>E-Commerce</h3>
           <p>High-converting online stores with seamless payment integration.</p>
         </div>
-        <div class="glass-card service-card reveal" data-delay="500">
+        <div class="glass-card service-card reveal" data-delay="590">
           <div class="icon">🤖</div>
           <h3>AI &amp; Automation</h3>
-          <p>Intelligent automation and AI-powered features that drive results.</p>
+          <p>Intelligent automation and AI-powered features that drive scaling.</p>
+        </div>
+        <div class="glass-card service-card reveal" data-delay="600">
+          <div class="icon">📢</div>
+          <h3>Social Media Marketing</h3>
+          <p>Data-driven campaigns that grow your brand authority and reach.</p>
+        </div>
+        <div class="glass-card service-card reveal" data-delay="700">
+          <div class="icon">🏷️</div>
+          <h3>White Labelling</h3>
+          <p>Your silent development partner for premium, scalable B2B solutions.</p>
         </div>
       </div>
       <div style="text-align:center;margin-top:2rem"><a href="services.html" class="btn btn-ghost"><span>View All
@@ -296,32 +372,40 @@
       <p class="section-label">—— PORTFOLIO ——</p>
       <h2 class="section-title">Work That Speaks</h2>
       <div class="featured-grid" style="margin-top:2rem">
-        <a href="https://durgatoursandtravels.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="0">
-          <div class="project-cover" style="background:url('images/durga_tours.png') center/cover no-repeat"></div>
+        <a href="https://www.aratravels.in/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="0" aria-label="View Ara Travels project">
+          <div class="project-cover" style="background:url('images/ara_travels_dashboard.png') center/cover no-repeat" role="img" aria-label="Ara Travels Dashboard"></div>
+          <div class="project-card-content">
+            <h3>Ara Travels</h3>
+            <div class="project-tags"><span>SaaS</span><span>Logistics</span><span>Fleet Management</span></div>
+            <div class="view-link">Visit Website →</div>
+          </div>
+        </a>
+        <a href="https://durgatoursandtravels.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="100" aria-label="View Durga Tours and Travels project">
+          <div class="project-cover" style="background:url('images/durga_tours.png') center/cover no-repeat" role="img" aria-label="Durga Tours and Travels cover" loading="lazy"></div>
           <div class="project-card-content">
             <h3>Durga Tours and Travels</h3>
             <div class="project-tags"><span>Website</span><span>Travel</span><span>Booking</span></div>
             <div class="view-link">Visit Website →</div>
           </div>
         </a>
-        <a href="https://srihesrithascloudkitchen.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="100">
-          <div class="project-cover" style="background:url('images/cloud_kitchen.png') center/cover no-repeat"></div>
+        <a href="https://srihesrithascloudkitchen.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="100" aria-label="View Sri Hesritha's Cloud Kitchen project">
+          <div class="project-cover" style="background:url('images/cloud_kitchen.png') center/cover no-repeat" role="img" aria-label="Cloud Kitchen cover"></div>
           <div class="project-card-content">
             <h3>Sri Hesritha's Cloud Kitchen</h3>
             <div class="project-tags"><span>Website</span><span>Food</span><span>Cloud Kitchen</span></div>
             <div class="view-link">Visit Website →</div>
           </div>
         </a>
-        <a href="https://rktoursntravels.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="200">
-          <div class="project-cover" style="background:url('images/rk_tours.png') center/cover no-repeat"></div>
+        <a href="https://rktoursntravels.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="200" aria-label="View RK Tours N Travels project">
+          <div class="project-cover" style="background:url('images/rk_tours.png') center/cover no-repeat" role="img" aria-label="RK Tours cover"></div>
           <div class="project-card-content">
             <h3>RK Tours N Travels</h3>
             <div class="project-tags"><span>Website</span><span>Travel</span><span>Booking</span></div>
             <div class="view-link">Visit Website →</div>
           </div>
         </a>
-        <a href="https://www.svayogashala.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="300">
-          <div class="project-cover" style="background:url('images/sva_yoga.png') center/cover no-repeat"></div>
+        <a href="https://www.svayogashala.com/" target="_blank" class="project-card reveal" style="text-decoration:none;" data-delay="300" aria-label="View SVA Yoga Shala project">
+          <div class="project-cover" style="background:url('images/sva_yoga.png') center/cover no-repeat" role="img" aria-label="SVA Yoga Shala cover"></div>
           <div class="project-card-content">
             <h3>SVA Yoga Shala</h3>
             <div class="project-tags"><span>Website</span><span>Yoga</span><span>Health</span></div>
@@ -354,6 +438,11 @@
           <div class="why-icon">🏗️</div>
           <h3>Scalable Architecture</h3>
           <p>Every system we build is designed to grow with your business, handling 10x traffic effortlessly.</p>
+        </div>
+        <div class="why-item reveal" data-delay="300">
+          <div class="why-icon">🤝</div>
+          <h3>Direct Founder Partnership</h3>
+          <p>No account managers. You work directly with Kiran P and Sai Bharadwaj K for architecture and strategy.</p>
         </div>
       </div>
     </div>

@@ -38,9 +38,9 @@
     <div class="nav-links">
       <a href="index.html" ${linkClass('index.html')}>Home</a>
       <a href="about.html" ${linkClass('about.html')}>About</a>
-      <a href="process.html" ${linkClass('process.html')}>Process</a>
+      <a href="services.html" ${linkClass('services.html')}>Services</a>
       <a href="work.html" ${linkClass('work.html')}>Work</a>
-      <a href="blog.html" ${linkClass('blog.html')}>Blog</a>
+      <a href="process.html" ${linkClass('process.html')}>Process</a>
       <a href="contact.html" ${linkClass('contact.html')}>Contact</a>
     </div>
     <div class="nav-actions">
@@ -60,9 +60,9 @@
   mob.innerHTML = `
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="process.html">Process</a>
+    <a href="services.html">Services</a>
     <a href="work.html">Work</a>
-    <a href="blog.html">Blog</a>
+    <a href="process.html">Process</a>
     <a href="contact.html">Contact</a>
     <a href="quote.html" class="btn btn-primary" style="margin-top:1rem"><span>Start Project →</span></a>
   `;
@@ -98,10 +98,10 @@
         <a href="index.html" class="nav-logo" style="font-size:1.3rem">WEBHA<span>TRIX</span></a>
         <p>We Build. We Scale. We Deliver.</p>
         <div class="footer-socials">
-          <a href="#" aria-label="LinkedIn" title="LinkedIn"><span>in</span></a>
-          <a href="#" aria-label="GitHub" title="GitHub"><span>GH</span></a>
-          <a href="#" aria-label="Twitter" title="Twitter"><span>𝕏</span></a>
-          <a href="#" aria-label="Instagram" title="Instagram"><span>IG</span></a>
+          <a href="https://www.linkedin.com/company/webhatrix/" target="_blank" aria-label="LinkedIn Profile" title="Webhatrix LinkedIn"><span>in</span></a>
+          <a href="#" aria-label="GitHub Profile" title="Webhatrix GitHub"><span>GH</span></a>
+          <a href="#" aria-label="Twitter X Profile" title="Webhatrix Twitter"><span>𝕏</span></a>
+          <a href="#" aria-label="Instagram Profile" title="Webhatrix Instagram"><span>IG</span></a>
         </div>
       </div>
       <div>
@@ -113,6 +113,7 @@
           <li><a href="services.html"><span>SaaS & Cloud</span></a></li>
           <li><a href="services.html"><span>E-Commerce</span></a></li>
           <li><a href="services.html"><span>AI & Automation</span></a></li>
+          <li><a href="services.html"><span>Social Media Marketing</span></a></li>
         </ul>
       </div>
       <div>
@@ -121,22 +122,24 @@
           <li><a href="about.html"><span>About Us</span></a></li>
           <li><a href="process.html"><span>Our Process</span></a></li>
           <li><a href="work.html"><span>Portfolio</span></a></li>
-          <li><a href="blog.html"><span>Blog</span></a></li>
           <li><a href="contact.html"><span>Contact</span></a></li>
         </ul>
       </div>
       <div>
         <h4>Contact</h4>
         <ul>
-          <li><a href="mailto:bharadwaj0389@gmail.com"><span>bharadwaj0389@gmail.com</span></a></li>
+          <li><a href="mailto:webhatrix8@gmail.com"><span>webhatrix8@gmail.com</span></a></li>
           <li><a href="tel:+917569645049"><span>+91 75696 45049</span></a></li>
+          <li><a href="tel:+916302567165"><span>+91 63025 67165</span></a></li>
           <li><a href="quote.html"><span>Get a Quote</span></a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>&copy; ${new Date().getFullYear()} Webhatrix Technologies. All rights reserved.</span>
-      <span>Built with Passion. Delivered with Precision.</span>
+      <span style="margin: 0 10px; opacity: 0.3;">|</span>
+      <a href="privacy.html" style="color: var(--muted); text-decoration: none; font-size: 0.85rem;">Privacy Policy</a>
+      <span style="display: block; margin-top: 10px;">Built with Passion. Delivered with Precision.</span>
     </div>
   `;
   document.body.appendChild(footer);
@@ -146,8 +149,8 @@
   wa.href = 'https://wa.me/917569645049?text=Hi%20Webhatrix!%20I%20have%20a%20project%20to%20discuss.';
   wa.target = '_blank';
   wa.className = 'whatsapp-float';
-  wa.title = 'Chat on WhatsApp';
-  wa.innerHTML = `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 0h-.008C7.174 0 .002 7.174.002 16.002c0 3.502 1.14 6.742 3.07 9.37L1.058 31.34l6.196-2.04A15.92 15.92 0 0 0 16.004 32C24.826 32 32 24.826 32 16.002S24.826 0 16.004 0zm9.318 22.614c-.39 1.1-1.932 2.012-3.172 2.278-.85.18-1.96.322-5.694-1.224-4.78-1.978-7.856-6.83-8.094-7.148-.228-.318-1.918-2.554-1.918-4.87 0-2.318 1.214-3.456 1.644-3.926.39-.428.914-.578 1.2-.578.15 0 .318 0 .468.01.43.018.644.042.928.718.356.844 1.218 2.978 1.328 3.196.108.218.218.508.068.808-.138.308-.258.498-.478.768-.218.268-.458.598-.648.798-.218.238-.448.498-.188.938.258.428 1.148 1.888 2.468 3.058 1.698 1.508 3.128 1.978 3.568 2.198.428.218.688.188.948-.108.268-.308 1.138-1.318 1.438-1.768.298-.448.608-.378.998-.228.398.148 2.508 1.188 2.938 1.398.428.218.718.318.828.508.108.188.108 1.088-.282 2.174z"/></svg><span class="wa-tooltip">Chat with us!</span>`;
+  wa.title = 'Talk to our Technical Team now';
+  wa.innerHTML = `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 0h-.008C7.174 0 .002 7.174.002 16.002c0 3.502 1.14 6.742 3.07 9.37L1.058 31.34l6.196-2.04A15.92 15.92 0 0 0 16.004 32C24.826 32 32 24.826 32 16.002S24.826 0 16.004 0zm9.318 22.614c-.39 1.1-1.932 2.012-3.172 2.278-.85.18-1.96.322-5.694-1.224-4.78-1.978-7.856-6.83-8.094-7.148-.228-.318-1.918-2.554-1.918-4.87 0-2.318 1.214-3.456 1.644-3.926.39-.428.914-.578 1.2-.578.15 0 .318 0 .468.01.43.018.644.042.928.718.356.844 1.218 2.978 1.328 3.196.108.218.218.508.068.808-.138.308-.258.498-.478.768-.218.268-.458.598-.648.798-.218.238-.448.498-.188.938.258.428 1.148 1.888 2.468 3.058 1.698 1.508 3.128 1.978 3.568 2.198.428.218.688.188.948-.108.268-.308 1.138-1.318 1.438-1.768.298-.448.608-.378.998-.228.398.148 2.508 1.188 2.938 1.398.428.218.718.318.828.508.108.188.108 1.088-.282 2.174z"/></svg><span class="wa-tooltip">Talk to our Experts!</span>`;
   document.body.appendChild(wa);
 
   /* ── Navbar scroll — NO scroll listener here; handled by master loop in main.js ── */
@@ -168,13 +171,19 @@
 
   /* ── Page Transitions (fade overlay) ── */
   // On page load: overlay starts opaque, fades to transparent
-  window.addEventListener('DOMContentLoaded', () => {
+  const hideOverlay = () => {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         overlay.classList.add('transparent');
       });
     });
-  });
+  };
+
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', hideOverlay);
+  } else {
+    hideOverlay();
+  }
 
   // Intercept internal link clicks
   document.addEventListener('click', (e) => {
